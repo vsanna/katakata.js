@@ -2,11 +2,11 @@
 this is a simple JavaScript library to add an effect like type-writer.
 
 
-this is demo
+demo git.
 
 ![sample](images/sample.gif)
 
-demo
+on browser. [link](http://vsanna.github.io/katakata.js)
 
 
 # how to use
