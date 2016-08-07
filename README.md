@@ -11,12 +11,13 @@ TODO: add gif image
 
 first, install katakata.js via npm.
 
-```
+```bash
 $ npm install katakata
 ```
 
 And then, read, config and run. that's all.
-```
+
+```js
 var Katakata = require('katakata');
 var katakata = Katakata({
   'target': '#your_element_id', // default : '#katakata'
