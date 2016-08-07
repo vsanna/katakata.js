@@ -1,0 +1,53 @@
+.box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 3rem;
+    background-color: #061b3a;
+    color: rgb(237, 240, 254);
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+}
+
+.typing {
+  font-family: 'Source Code Pro';
+  font-weight: bold;
+  white-space: pre;
+  opacity: 1;
+}
+
+.typing.on-edit {
+    border-bottom: 3px solid #fff;
+    padding-bottom: 7px;
+    position: relative;
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-9px);
+    display: inline-block;
+    line-height: 2.8rem;
+}
+.typing.on-edit::after {
+    content: "";
+    display: inline-block;
+    border-right: 3px solid #fff;
+    position: absolute;
+    right: -8px;
+    top: 0;
+    height: 100%;
+    animation: showTitle 1s ease-in 0s;
+    animation-iteration-count: infinite; 
+    min-height: 30px;
+}
+
+
+@-webkit-keyframes showTitle {
+  0% {   opacity: 1; }
+  100% { opacity: 0; }
+}
+
+@keyframes showTitle {
+  0% {   opacity: 1; }
+  100% { opacity: 0; }
+}
