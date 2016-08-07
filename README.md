@@ -1,6 +1,6 @@
 # katakata.js
 katakata is a simple JavaScript library, written in ES6, to show an effect like type-writer.
-
+('katakata' is a Onomatopoeia which means typing in japanese.)
 
 demo git.
 
