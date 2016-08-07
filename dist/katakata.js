@@ -54,7 +54,7 @@
 	  function Katakata(config) {
 	    _classCallCheck(this, Katakata);
 	
-	    this.setConfig(config.target, config.text, config.intervalMinSec, config.intervalMaxSec, config.debug);
+	    this.setConfig(config.target, config.text, config.devider, config.intervalMinSec, config.intervalMaxSec, config.debug);
 	  }
 	
 	  _createClass(Katakata, [{
@@ -62,16 +62,19 @@
 	    value: function setConfig() {
 	      var target = arguments.length <= 0 || arguments[0] === undefined ? '#katakata' : arguments[0];
 	      var text = arguments.length <= 1 || arguments[1] === undefined ? 'katakata' : arguments[1];
-	      var intervalMinSec = arguments.length <= 2 || arguments[2] === undefined ? 200 : arguments[2];
-	      var intervalMaxSec = arguments.length <= 3 || arguments[3] === undefined ? 600 : arguments[3];
-	      var debug = arguments.length <= 4 || arguments[4] === undefined ? false : arguments[4];
+	      var devider = arguments.length <= 2 || arguments[2] === undefined ? ' ' : arguments[2];
+	      var intervalMinSec = arguments.length <= 3 || arguments[3] === undefined ? 200 : arguments[3];
+	      var intervalMaxSec = arguments.length <= 4 || arguments[4] === undefined ? 600 : arguments[4];
+	      var debug = arguments.length <= 5 || arguments[5] === undefined ? false : arguments[5];
 	
 	      this.$target = document.querySelector(target);
 	      this.text = text;
+	      this.devider = devider;
 	      this.intervalMinSec = intervalMinSec;
 	      this.intervalMaxSec = intervalMaxSec;
 	      this.characters = this.characters();
 	      this.innerChars = [];
+	      this.typingMachine = this.typeGenerate();
 	      if (debug) {
 	        window.katakataObject = this;
 	      }
@@ -79,25 +82,18 @@
 	  }, {
 	    key: 'run',
 	    value: function run() {
-	      this.startEdit();
-	      this.type();
-	    }
-	  }, {
-	    key: 'type',
-	    value: function type() {
-	      this.typingMachine = this.typeGenerate();
 	      var promise = this.typeCharPromise();
 	      this.typingController(promise);
 	    }
 	  }, {
-	    key: 'startEdit',
-	    value: function startEdit() {
-	      this.$target.classList.add('on-edit');
-	    }
-	  }, {
-	    key: 'finishEdit',
-	    value: function finishEdit() {
-	      this.$target.classList.remove('on-edit');
+	    key: 'createCell',
+	    value: function createCell() {
+	      var typingCell = document.createElement('span');
+	      typingCell.classList.add('typing');
+	      this.$target.append(typingCell);
+	      this.activeCell = typingCell;
+	      this.startEdit();
+	      return typingCell;
 	    }
 	  }, {
 	    key: 'characters',
@@ -146,9 +142,12 @@
 	
 	      return new Promise(function (resolve, reject) {
 	        var result = _this2.typingMachine.next();
-	        if (result['done']) {
-	          _this2.finishEdit();
-	          return;
+	
+	        if (result['done'] || result['value']['char'] == _this2.devider) {
+	          _this2.enter();
+	          if (result['done']) {
+	            return;
+	          }
 	        }
 	
 	        setTimeout(function () {
@@ -180,7 +179,19 @@
 	  }, {
 	    key: 'typeText',
 	    value: function typeText() {
-	      this.$target.innerText = this.innerChars.join('');
+	      this.activeCell.innerText = this.innerChars.join('');
+	    }
+	  }, {
+	    key: 'startEdit',
+	    value: function startEdit() {
+	      this.activeCell.classList.add('on-edit');
+	    }
+	  }, {
+	    key: 'enter',
+	    value: function enter() {
+	      this.activeCell.classList.remove('on-edit');
+	      this.activeCell = null;
+	      this.innerChars = [];
 	    }
 	  }]);
 	
