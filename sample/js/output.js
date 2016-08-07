@@ -45,238 +45,169 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var Katakata = __webpack_require__(1);
-	var katakata = new Katakata({ 'text': '<Project Name/>' })
+	var katakata = new Katakata({ 'text': '< Project |Name/>', 'devider': '|'})
 	katakata.run();
 	
 
 
 /***/ },
 /* 1 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var katakata = __webpack_require__(2);
+	
+	module.exports = katakata;
+
+
+/***/ },
+/* 2 */
 /***/ function(module, exports) {
 
-	"use strict";
+	class Katakata {
+	  constructor(config){
+	    this.setConfig(config.target,
+	        config.text,
+	        config.devider,
+	        config.intervalMinMSec,
+	        config.intervalMaxMsec,
+	        config.debug);
+	  }
 	
-	/******/(function (modules) {
-		// webpackBootstrap
-		/******/ // The module cache
-		/******/var installedModules = {};
-		/******/
-		/******/ // The require function
-		/******/function __webpack_require__(moduleId) {
-			/******/
-			/******/ // Check if module is in cache
-			/******/if (installedModules[moduleId])
-				/******/return installedModules[moduleId].exports;
-			/******/
-			/******/ // Create a new module (and put it into the cache)
-			/******/var module = installedModules[moduleId] = {
-				/******/exports: {},
-				/******/id: moduleId,
-				/******/loaded: false
-				/******/ };
-			/******/
-			/******/ // Execute the module function
-			/******/modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-			/******/
-			/******/ // Flag the module as loaded
-			/******/module.loaded = true;
-			/******/
-			/******/ // Return the exports of the module
-			/******/return module.exports;
-			/******/
-		}
-		/******/
-		/******/
-		/******/ // expose the modules object (__webpack_modules__)
-		/******/__webpack_require__.m = modules;
-		/******/
-		/******/ // expose the module cache
-		/******/__webpack_require__.c = installedModules;
-		/******/
-		/******/ // __webpack_public_path__
-		/******/__webpack_require__.p = "";
-		/******/
-		/******/ // Load entry module and return exports
-		/******/return __webpack_require__(0);
-		/******/
-	})(
-	/************************************************************************/
-	/******/[
-	/* 0 */
-	/***/function (module, exports) {
+	  setConfig(target = '#katakata', text = 'katakata', devider = ' ', intervalMinMSec = 100, intervalMaxMsec = 400, debug = false){
+	    this.$target = document.querySelector(target);
+	    this.text = text;
+	    this.devider = devider;
+	    this.intervalMinMSec = intervalMinMSec;
+	    this.intervalMaxMsec = intervalMaxMsec;
+	    this.characters = this.characters();
+	    this.innerChars = [];
+	    this.typingMachine = this.typeGenerate();
+	    if ( debug ){ window.katakataObject = this; }
+	  }
 	
-		'use strict';
+	  characters(){
+	    return this.text.split('').map((char) => {
+	      return {
+	        'char': char,
+	        'interval': this.getInterval(char)
+	      }
+	    })
+	  }
 	
-		var _createClass = function () {
-			function defineProperties(target, props) {
-				for (var i = 0; i < props.length; i++) {
-					var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
-				}
-			}return function (Constructor, protoProps, staticProps) {
-				if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
-			};
-		}();
+	  getInterval(char){
+	    var intervalBase = this.getIntervalBase();
+	    var interval = (char == this.devider) ? intervalBase * 3 : intervalBase;
+	    return (interval < 1000) ? interval : 1000;
+	  }
 	
-		function _classCallCheck(instance, Constructor) {
-			if (!(instance instanceof Constructor)) {
-				throw new TypeError("Cannot call a class as a function");
-			}
-		}
+	  getIntervalBase(){
+	    return this.intervalMinMSec + Math.floor(Math.random() * (this.intervalMaxMsec - this.intervalMinMSec));
+	  }
 	
-		var Katakata = function () {
-			function Katakata(config) {
-				_classCallCheck(this, Katakata);
+	  * typeGenerate(){
+	    yield* this.characters;
+	  }
 	
-				this.setConfig(config.target, config.text, config.devider, config.intervalMinSec, config.intervalMaxSec, config.debug);
-			}
+	  run(){
+	    let promise = this.typeCharPromise();
+	    this.typingController(promise);
+	  }
 	
-			_createClass(Katakata, [{
-				key: 'setConfig',
-				value: function setConfig() {
-					var target = arguments.length <= 0 || arguments[0] === undefined ? '#katakata' : arguments[0];
-					var text = arguments.length <= 1 || arguments[1] === undefined ? 'katakata' : arguments[1];
-					var devider = arguments.length <= 2 || arguments[2] === undefined ? ' ' : arguments[2];
-					var intervalMinSec = arguments.length <= 3 || arguments[3] === undefined ? 200 : arguments[3];
-					var intervalMaxSec = arguments.length <= 4 || arguments[4] === undefined ? 600 : arguments[4];
-					var debug = arguments.length <= 5 || arguments[5] === undefined ? false : arguments[5];
+	  typingController(promise){
+	    promise.then(()=>{
+	      this.typingController(this.typeCharPromise());
+	    })
+	  }
 	
-					this.$target = document.querySelector(target);
-					this.text = text;
-					this.devider = devider;
-					this.intervalMinSec = intervalMinSec;
-					this.intervalMaxSec = intervalMaxSec;
-					this.characters = this.characters();
-					this.innerChars = [];
-					this.typingMachine = this.typeGenerate();
-					if (debug) {
-						window.katakataObject = this;
-					}
-				}
-			}, {
-				key: 'run',
-				value: function run() {
-					var promise = this.typeCharPromise();
-					this.typingController(promise);
-				}
-			}, {
-				key: 'createCell',
-				value: function createCell() {
-					var typingCell = document.createElement('span');
-					typingCell.classList.add('typing');
-					this.$target.append(typingCell);
-					this.activeCell = typingCell;
-					this.startEdit();
-					return typingCell;
-				}
-			}, {
-				key: 'characters',
-				value: function characters() {
-					var _this = this;
+	  typeCharPromise(){
+	    return new Promise((resolve, reject)=>{
+	      var result = this.typingMachine.next();
 	
-					return this.text.split('').map(function (char) {
-						return {
-							'char': char,
-							'interval': _this.getInterval(char)
-						};
-					});
-				}
-			}, {
-				key: 'getInterval',
-				value: function getInterval(char) {
-					var intervalBase = this.getIntervalBase();
-					var interval = char == ' ' ? intervalBase * 3 : intervalBase;
-					return interval < 1000 ? interval : 1000;
-				}
-			}, {
-				key: 'getIntervalBase',
-				value: function getIntervalBase() {
-					return this.intervalMinSec - 1 + Math.floor(Math.random() * this.intervalMaxSec);
-				}
-			}, {
-				key: 'typeGenerate',
-				value: regeneratorRuntime.mark(function typeGenerate() {
-					return regeneratorRuntime.wrap(function typeGenerate$(_context) {
-						while (1) {
-							switch (_context.prev = _context.next) {
-								case 0:
-									return _context.delegateYield(this.characters, 't0', 1);
+	      // 必要であればセルを配置 
+	      this.setCellIfNecesasry();
 	
-								case 1:
-								case 'end':
-									return _context.stop();
-							}
-						}
-					}, typeGenerate, this);
-				})
-			}, {
-				key: 'typeCharPromise',
-				value: function typeCharPromise() {
-					var _this2 = this;
+	      // 処理全体の終了判定
+	      if ( result['done'] ){
+	        this.enter(null);
+	        return;
+	      }
 	
-					return new Promise(function (resolve, reject) {
-						var result = _this2.typingMachine.next();
+	      // 表示を更新
+	      this.enterOrType(result, resolve);
+	    })
+	  }
 	
-						if (result['done'] || result['value']['char'] == _this2.devider) {
-							_this2.enter();
-							if (result['done']) {
-								return;
-							}
-						}
+	  setCellIfNecesasry(){
+	    if ( this.activeCell == null ){
+	      var typingCell = document.createElement('span');
+	      typingCell.classList.add('typing');
+	      typingCell.classList.add('on-edit');
+	      this.$target.appendChild(typingCell);
+	      this.activeCell = typingCell;
+	    }
+	  }
 	
-						setTimeout(function () {
-							_this2.typingBase(result['value']['char']);
-							resolve();
-						}, result['value']['interval']);
-					});
-				}
-			}, {
-				key: 'typingController',
-				value: function typingController(promise) {
-					var _this3 = this;
+	  enterOrType(result, resolve){
+	    if ( result['value']['char'] == this.devider ){
+	      this.enter(resolve);
+	    } else {
+	      this.type(result, resolve);
+	    }
+	  }
 	
-					promise.then(function () {
-						_this3.typingController(_this3.typeCharPromise());
-					});
-				}
-			}, {
-				key: 'typingBase',
-				value: function typingBase(char) {
-					this.insertChar(char);
-					this.typeText();
-				}
-			}, {
-				key: 'insertChar',
-				value: function insertChar(char) {
-					this.innerChars.push(char);
-				}
-			}, {
-				key: 'typeText',
-				value: function typeText() {
-					this.activeCell.innerText = this.innerChars.join('');
-				}
-			}, {
-				key: 'startEdit',
-				value: function startEdit() {
-					this.activeCell.classList.add('on-edit');
-				}
-			}, {
-				key: 'enter',
-				value: function enter() {
-					this.activeCell.classList.remove('on-edit');
-					this.activeCell = null;
-					this.innerChars = [];
-				}
-			}]);
+	  type(result, resolve){
+	    setTimeout(()=>{
+	      this.typingBase(result['value']['char']);
+	      resolve();
+	    },result['value']['interval'])
+	  }
 	
-			return Katakata;
-		}();
+	  enter(resolve){
+	    setTimeout(()=>{
+	      this.activeCell.classList.remove('on-edit');
+	      if ( resolve == null){
+	        return;
+	      } else {
+	        this.activeCell = null;
+	        this.innerChars = [];
+	        resolve();
+	      }
+	    }, 400) // 余韻
+	  }
 	
-		module.exports = Katakata;
+	  // type(result, resolve){
+	  //   setTimeout(()=>{
+	  //     this.enterOrType(result);
+	  //     resolve();
+	  //   },result['value']['interval'])
+	  // }
+	  //
+	  // enterOrType(result){
+	  //   if ( result['value']['char'] == this.devider ){
+	  //     this.enter();
+	  //   } else {
+	  //     this.typingBase(result['value']['char']);
+	  //   }
+	  // }
 	
-		/***/
+	
+	  typingBase(char){
+	    this.insertChar(char);
+	    this.showText();
+	  }
+	
+	  insertChar(char){
+	    this.innerChars.push(char);
+	  }
+	
+	  showText(){
+	    this.activeCell.innerText = this.innerChars.join(''); 
+	  }
+	
 	}
-	/******/]);
-	//# sourceMappingURL=katakata.js.map
+	
+	module.exports = Katakata;
+
 
 /***/ }
 /******/ ]);

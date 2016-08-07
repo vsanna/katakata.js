@@ -3,17 +3,17 @@ class Katakata {
     this.setConfig(config.target,
         config.text,
         config.devider,
-        config.intervalMinSec,
-        config.intervalMaxSec,
+        config.intervalMinMSec,
+        config.intervalMaxMsec,
         config.debug);
   }
 
-  setConfig(target = '#katakata', text = 'katakata', devider = ' ', intervalMinSec = 200, intervalMaxSec = 600, debug = false){
+  setConfig(target = '#katakata', text = 'katakata', devider = ' ', intervalMinMSec = 100, intervalMaxMsec = 400, debug = false){
     this.$target = document.querySelector(target);
     this.text = text;
     this.devider = devider;
-    this.intervalMinSec = intervalMinSec;
-    this.intervalMaxSec = intervalMaxSec;
+    this.intervalMinMSec = intervalMinMSec;
+    this.intervalMaxMsec = intervalMaxMsec;
     this.characters = this.characters();
     this.innerChars = [];
     this.typingMachine = this.typeGenerate();
@@ -31,12 +31,12 @@ class Katakata {
 
   getInterval(char){
     var intervalBase = this.getIntervalBase();
-    var interval = (char == ' ') ? intervalBase * 3 : intervalBase;
+    var interval = (char == this.devider) ? intervalBase * 3 : intervalBase;
     return (interval < 1000) ? interval : 1000;
   }
 
   getIntervalBase(){
-    return this.intervalMinSec - 1 + Math.floor(Math.random() * this.intervalMaxSec);
+    return this.intervalMinMSec + Math.floor(Math.random() * (this.intervalMaxMsec - this.intervalMinMSec));
   }
 
   * typeGenerate(){
@@ -62,10 +62,13 @@ class Katakata {
       this.setCellIfNecesasry();
 
       // 処理全体の終了判定
-      this.finishIfNecessary(result)(); 
+      if ( result['done'] ){
+        this.enter(null);
+        return;
+      }
 
-      // 表示を更新して次に進める
-      this.type(result, resolve);
+      // 表示を更新
+      this.enterOrType(result, resolve);
     })
   }
 
@@ -76,39 +79,36 @@ class Katakata {
       typingCell.classList.add('on-edit');
       this.$target.appendChild(typingCell);
       this.activeCell = typingCell;
-      return typingCell;
     }
   }
 
-  finishIfNecessary(result){
-    if ( result['done'] ){
-      this.enter();
-      return ()=>{ return; }
+  enterOrType(result, resolve){
+    if ( result['value']['char'] == this.devider ){
+      this.enter(resolve);
     } else {
-      return ()=>{}
+      this.type(result, resolve);
     }
   }
 
   type(result, resolve){
     setTimeout(()=>{
       this.typingBase(result['value']['char']);
-      this.shouldEnter(result);
       resolve();
     },result['value']['interval'])
   }
 
-  shouldEnter(result){
-    if ( result['value']['char'] == this.devider ){
-      this.enter();
-    }
+  enter(resolve){
+    setTimeout(()=>{
+      this.activeCell.classList.remove('on-edit');
+      if ( resolve == null){
+        return;
+      } else {
+        this.activeCell = null;
+        this.innerChars = [];
+        resolve();
+      }
+    }, 600) // 余韻
   }
-
-  enter(){
-    this.activeCell.classList.remove('on-edit');
-    this.activeCell = null;
-    this.innerChars = [];
-  }
-
 
   typingBase(char){
     this.insertChar(char);

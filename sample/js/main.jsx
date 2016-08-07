@@ -1,4 +1,4 @@
-var Katakata = require('../..//dist/katakata.js');
-var katakata = new Katakata({ 'text': '<Project Name/>' })
+var Katakata = require('katakata');
+var katakata = new Katakata({ 'text': '< Project |Name/>', 'devider': '|'})
 katakata.run();
 

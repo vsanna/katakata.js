@@ -22,6 +22,7 @@ var Katakata = require('katakata');
 var katakata = new Katakata({
   'target': '#your_element_id', // default : '#katakata'
   'text': 'what you want to show', // default : 'katakata'
+  'devider': '|', // default: '|', this shows where to enter.
   'intervalMinMSec': 200, // default: 200
   'intervalMaxMSec': 600, // default: 600
 })
