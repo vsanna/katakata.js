@@ -45,4 +45,4 @@ katakata.run();
 ```
 
 ## sample code
-check sample code [here!](https://github.com/vsanna/katakata.js/sample)
+check sample code [here!](https://github.com/vsanna/katakata.js/tree/master/sample)
