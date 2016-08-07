@@ -45,7 +45,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var Katakata = __webpack_require__(1);
-	var katakata = new Katakata({ 'text': '< Project |Name/>', 'devider': '|'})
+	var katakata = new Katakata({ 'text': 'what |you |want |to |show.', 'devider': '|'})
 	katakata.run();
 	
 
@@ -172,24 +172,8 @@
 	        this.innerChars = [];
 	        resolve();
 	      }
-	    }, 400) // 余韻
+	    }, 600) // 余韻
 	  }
-	
-	  // type(result, resolve){
-	  //   setTimeout(()=>{
-	  //     this.enterOrType(result);
-	  //     resolve();
-	  //   },result['value']['interval'])
-	  // }
-	  //
-	  // enterOrType(result){
-	  //   if ( result['value']['char'] == this.devider ){
-	  //     this.enter();
-	  //   } else {
-	  //     this.typingBase(result['value']['char']);
-	  //   }
-	  // }
-	
 	
 	  typingBase(char){
 	    this.insertChar(char);
