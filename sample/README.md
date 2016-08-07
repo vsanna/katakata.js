@@ -33,14 +33,14 @@ read [here](https://github.com/vsanna/katakata.js/blob/master/styles/style.css)
 
 ### js/main.jsx
 
-```
+```js
 var Katakata = require('katakata');
 var katakata = new Katakata({ 'text': "what |you |want |to |show\n| たとえば| 改行も | できるんだぜ", 'devider': '|'})
 katakata.run();
 ```
 
 ### webpack.config.js
-```
+```js
 module.exports = {
   entry: __dirname + "/js/main.jsx",
   output: {
