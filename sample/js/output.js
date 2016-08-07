@@ -45,7 +45,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var Katakata = __webpack_require__(1);
-	var katakata = new Katakata({ 'text': 'what |you |want |to |show', 'devider': '|'})
+	var katakata = new Katakata({ 'text': "what |you |want |to |show\n| たとえば| 改行も | できるんだぜ", 'devider': '|'})
 	katakata.run();
 	
 
