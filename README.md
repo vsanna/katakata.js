@@ -1,5 +1,11 @@
 # katakata.js
-JavaScript is a simple library to add an effect like TypeWriter.
+this is a simple JavaScript library to add an effect like type-writer.
+
+
+this is demo
+
+TODO: add gif image
+
 
 # how to use
 
