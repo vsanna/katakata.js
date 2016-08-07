@@ -21,7 +21,7 @@ $ npm install katakata
 $ npm install --save babel-core babel-loader babel-runtime babel-preset-es2015
 ```
 
-And then, read, config and run. That's all.
+And then, require, config and run. That's all.
 
 ```js
 var Katakata = require('katakata');
