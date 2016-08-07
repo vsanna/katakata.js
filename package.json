@@ -1,0 +1,15 @@
+{
+  "name": "katakata",
+  "private": false,
+  "version": "0.0.1",
+  "description": "this module gives an effect which showing text character by character",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "typewrite"
+  ],
+  "author": "Ryu Ishikawa (@vsanna)",
+  "license": "ISC"
+}
