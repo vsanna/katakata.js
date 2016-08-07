@@ -4,7 +4,9 @@ this is a simple JavaScript library to add an effect like type-writer.
 
 this is demo
 
-TODO: add gif image
+![sample](images/sample.gif)
+
+demo
 
 
 # how to use
@@ -21,7 +23,7 @@ And then, read, config and run. that's all.
 var Katakata = require('katakata');
 var katakata = new Katakata({
   'target': '#your_element_id', // default : '#katakata'
-  'text': 'what you want to show', // default : 'katakata'
+  'text': 'what|you|want|to|show', // default : 'katakata'
   'devider': '|', // default: '|', this shows where to enter.
   'intervalMinMSec': 200, // default: 200
   'intervalMaxMSec': 600, // default: 600
