@@ -19,7 +19,7 @@ And then, read, config and run. that's all.
 
 ```js
 var Katakata = require('katakata');
-var katakata = Katakata({
+var katakata = new Katakata({
   'target': '#your_element_id', // default : '#katakata'
   'text': 'what you want to show', // default : 'katakata'
   'intervalMinMSec': 200, // default: 200
