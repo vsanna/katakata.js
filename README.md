@@ -1,12 +1,21 @@
 # katakata.js
 katakata is a simple JavaScript library, written in ES6, to show an effect like type-writer.  
-('katakata' is a Onomatopoeia which means typing in japanese.)
+('katakata' is a onomatopoeia which means typing in japanese.)
+
+you can ...
+
+- use for multiple lines.
+- config typing speed, devider-symbol and other parameter.
+- use class 'on-edit' for the word which is being editted.
 
 demo GIF.
 
 ![sample](images/sample.gif)
 
 demo on browser is [here](http://vsanna.github.io/katakata.js)
+
+if you liked this style, you can use this style from ```styles/style.css```
+it's very simple css, so you can modify as you like.
 
 
 # how to use
