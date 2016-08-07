@@ -1,16 +1,24 @@
 {
   "name": "katakata",
   "private": false,
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "this module gives an effect which showing text character by character",
   "main": "lib/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vsanna/katakata.js",
+  },
+  "bugs": {
+    "url": "https://github.com/vsanna/katakata.js/issues",
+    "email": "cvcl0808@gmail.com"
+  },
   "keywords": [
-    "typewrite"
+    "typewrite", "typewriter", "type", "animation", "javascript", "effect", "text", "typing", ""
   ],
-  "author": "Ryu Ishikawa (@vsanna)",
+  "author": "Ryu Ishikawa (@vsanna) / cvcl0808@gmail.com",
   "license": "ISC",
   "devDependencies": {
     "babel-core": "^6.13.2",
