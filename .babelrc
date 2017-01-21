@@ -1,0 +1,11 @@
+{
+    /*
+     presetsとは、用途別に複数のpluginをまとめたもの
+     es2015だとtransform-es2015-arrow-functionsなど含め、20程度のpluginをまとめて読み込む
+     他に有名ドコロだとreactなど。
+
+     たまにpluginsが読み込めない時があるので、困ったら rm -rf node_modules/も一興
+    */
+    "presets": ["es2015"],
+    "plugins": ["transform-runtime"],
+}
