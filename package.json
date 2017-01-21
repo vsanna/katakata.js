@@ -1,7 +1,7 @@
 {
   "name": "katakata",
   "private": false,
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "this module gives an effect which showing text character by character",
   "main": "lib/index.js",
   "scripts": {
